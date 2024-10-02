@@ -1091,16 +1091,10 @@
         "logo_position": {
           "label": "Desktop logo position",
           "options__1": {
-            "label": "Middle left"
+            "label": "Left"
           },
           "options__2": {
-            "label": "Top left"
-          },
-          "options__3": {
-            "label": "Top center"
-          },
-          "options__4": {
-            "label": "Middle center"
+            "label": "Center"
           }
         },
         "menu": {
@@ -1122,6 +1116,30 @@
         "show_line_separator": {
           "label": "Show separator line"
         },
+        "info_message": {
+          "label": "Info message"
+        },
+        "content_align": {
+          "label": "Message alignment",
+          "left": {
+            "label": "Left"
+          },
+          "center": {
+            "label": "Center"
+          },
+          "right": {
+            "label": "Right"
+          }
+        },
+        "button_label": {
+          "label": "Button label"
+        },
+        "button_link": {
+          "label": "Button link"
+        },
+        "action": {
+          "content": "Action button"
+        },
         "header__1": {
           "content": "Color"
         },
@@ -1141,6 +1159,18 @@
           },
           "options__4": {
             "label": "Always, reduce logo size"
+          }
+        },
+        "text_size": {
+          "label": "Desktop font size",
+          "options__1": {
+            "label": "Body text"
+          },
+          "options__2": {
+            "label": "Large"
+          },
+          "options__3": {
+            "label": "Small"
           }
         },
         "header__3": {
@@ -1279,6 +1309,16 @@
         },
         "show_text_below": {
           "label": "Show container on mobile"
+        },
+        "mobile_text_position": {
+          "options__1": {
+            "label": "Top"
+          },
+          "options__2": {
+            "label": "Bottom"
+          },
+          "label": "Mobile content position",
+          "info": "This will only work if 'Show container on mobile' option is enable."
         }
       },
       "blocks": {
@@ -1720,6 +1760,47 @@
             }
           }
         }
+      }
+    },
+    "shop_the_look": {
+      "name": "Shop the look",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "subheading": {
+          "label": "Subheading"
+        },
+        "text_alignment":{
+          "label": "Desktop content alignment",
+          "info": "[Learn more](https://www.slashthemes.com/pages/swiss-guide)"
+        },
+        "header": {
+          "content": "Product card"
+        }
+      },
+      "blocks": {
+        "name": "Look",
+        "settings": {
+          "product": {
+            "label": "Product"
+          },
+          "header": {
+            "content": "Or"
+          },
+          "image": {
+            "label": "Image"
+          },
+          "product_horizontal_position": {
+            "label": "Horizontal position"
+          },
+          "product_vertical_position": {
+            "label": "Vertical position"
+          }
+        }
+      },
+      "presets": {
+        "name": "Shop the look"
       }
     },
     "main-blog": {
@@ -2956,6 +3037,18 @@
             "text": {
               "label": "Description",
               "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
+            },
+            "paragraph_case": {
+              "label": "Text case style",
+              "options__1": {
+                "label": "Uppercase"
+              },
+              "options__2": {
+                "label": "Capitalize"
+              },
+              "options__3": {
+                "label": "Lowercase"
+              }
             }
           }
         },

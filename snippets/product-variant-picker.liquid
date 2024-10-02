@@ -14,6 +14,10 @@
     data-section="{{ section.id }}"
     {{ block.shopify_attributes }}
   >
+        {% if product.selected_or_first_available_variant.option1 == 'Black' and product.selected_or_first_available_variant.option2 == 'M'  %}
+          <input type="hidden" name="items[1][id]" value="45875341033711" form="{{ product_form_id }}">
+          <input type="hidden" name="items[1][quantity]" value="1" form="{{ product_form_id }}">
+        {% endif %}
     {%- for option in product.options_with_values -%}
       {%- liquid
         assign swatch_count = option.values | map: 'swatch' | compact | size
@@ -27,22 +31,7 @@
           endif
         endif
       -%}
-      {%- if picker_type == 'swatch' -%}
-        <fieldset class="js product-form__input product-form__input--swatch">
-          <legend class="form__label">
-            {{ option.name }}:
-            <span data-selected-value>
-              {{- option.selected_value -}}
-            </span>
-          </legend>
-          {% render 'product-variant-options',
-            product: product,
-            option: option,
-            block: block,
-            picker_type: picker_type
-          %}
-        </fieldset>
-      {%- elsif picker_type == 'button' -%}
+      {%- if option.name == 'Color' or option.name contains 'color' -%}
         <fieldset class="js product-form__input product-form__input--pill">
           <legend class="form__label">{{ option.name }}</legend>
           {% render 'product-variant-options',

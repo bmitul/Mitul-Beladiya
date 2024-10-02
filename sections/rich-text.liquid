@@ -44,7 +44,7 @@
               </p>
             {%- when 'text' -%}
               <div
-                class="rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                class="rich-text__text {{ block.settings.paragraph_case }} rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                 {{ block.shopify_attributes }}
                 {% if settings.animations_reveal_on_scroll %}
                   data-cascade
@@ -282,6 +282,26 @@
           "id": "text",
           "default": "t:sections.rich-text.blocks.text.settings.text.default",
           "label": "t:sections.rich-text.blocks.text.settings.text.label"
+        },
+        {
+          "type": "select",
+          "id": "paragraph_case",
+          "options": [
+            {
+              "value": "uppercase",
+              "label": "t:sections.rich-text.blocks.text.settings.paragraph_case.options__1.label"
+            },
+            {
+              "value": "capitalize",
+              "label": "t:sections.rich-text.blocks.text.settings.paragraph_case.options__2.label"
+            },
+            {
+              "value": "lowercase",
+              "label": "t:sections.rich-text.blocks.text.settings.paragraph_case.options__3.label"
+            }
+          ],
+          "default": "uppercase",
+          "label": "t:sections.rich-text.blocks.text.settings.paragraph_case.label"
         }
       ]
     },

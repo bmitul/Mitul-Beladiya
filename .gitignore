@@ -8,5 +8,3 @@ config.yml
 /config.yml
 templates/index.json
 /templates/index.json
-/config/settings_data.json
-/config/settings_data.json

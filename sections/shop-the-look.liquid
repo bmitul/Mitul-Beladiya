@@ -1,0 +1,203 @@
+{{ 'shop-the-look.css' |  asset_url |  stylesheet_tag }}
+{{ 'quick-add.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+  
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} isolate gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="grid grid--2-col grid--3-col-desktop">
+      {%- for block in section.blocks -%}
+        {%- assign product = block.settings.product -%}
+        <div class="grid__item shopThelook__item">
+          <div class="shopThelook__inner ratio" style="--ratio-percent: 100.0%;">
+            <div class="shopThelook__media">
+              <div class="media">
+                {%- if block.settings.image -%}
+                  {%- liquid
+                    assign height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio | round
+                    assign sizes = '100vw'
+                    assign widths = '165, 375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+                    assign alt = block.settings.image.alt | escape -%}
+                    {{ block.settings.image | image_url: width: 550 | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths, alt: alt, title: alt, class: 'motion-reduce hover-class' }}
+                {%- else -%}
+                  {%- if product.featured_media != blank -%}
+                    {%- liquid
+                      assign height = product.featured_media.width | divided_by: product.featured_media.aspect_ratio | round
+                      assign sizes = '100vw'
+                      assign widths = '165, 375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+                      assign alt = product.featured_media.alt | escape -%}
+                      {{ product.featured_media | image_url: width: 550 | image_tag: loading: 'lazy', height: height, sizes: sizes, widths: widths, alt: alt, title: alt, class: 'motion-reduce hover-class' }}
+                  {%- else -%}
+                    {% capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture %}
+                    {%- assign placeholder_image = 'product-apparel-' | append: current -%}
+                      {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}       
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+           {% assign product_form_id = 'quick-add-' | append: section.title | append: product.id %}
+          <div class="quick-add no-js-hidden" style="left: {{ block.settings.product_horizontal_position }}%; top: {{ block.settings.product_vertical_position }}%; position: absolute;">
+              <modal-opener data-modal="#QuickAdd-{{ product.id }}">
+                <button id="{{ product_form_id }}-submit" type="submit" name="add" class="quick-add__submit look__dot__holder shopThelook-add__submit" aria-haspopup="dialog" aria-labelledby="{{ product_form_id }}-submit title-{{ section.title }}-{{ product.id }}" data-product-url="{{ product.url }}">
+                  <span class="look__dot"></span>
+                  {%- render 'loading-spinner' -%}
+                </button>
+              </modal-opener>
+              <quick-add-modal id="QuickAdd-{{ product.id }}" class="quick-add-modal">
+                <div role="dialog" aria-label="{{ 'products.product.choose_product_options' | t: product_name: product.title | escape }}" aria-modal="true" class="quick-add-modal__content global-settings-popup" tabindex="-1">
+                  <button id="ModalClose-{{ product.id }}" type="button" class="quick-add-modal__toggle" aria-label="{{ 'accessibility.close' | t }}">
+                    {{- 'icon-close.svg' | inline_asset_content -}}
+                  </button>
+                  <div id="QuickAddInfo-{{ product.id }}" class="quick-add-modal__content-info"></div>
+                </div>
+              </quick-add-modal>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+  
+{% schema %}
+{
+    "name": "t:sections.shop_the_look.name",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+      {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "t:sections.shop_the_look.settings.heading.label",
+          "default": "Heading" 
+      },
+      {
+          "type": "inline_richtext",
+          "id": "subheading",
+          "label": "t:sections.shop_the_look.settings.subheading.label",
+          "default": "Subheading"
+      },
+      {
+          "type": "text_alignment",
+          "id": "text_alignment",
+          "default": "left",
+          "label": "t:sections.shop_the_look.settings.text_alignment.label",
+          "info": "t:sections.shop_the_look.settings.text_alignment.info"
+      },
+      {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-1"
+      },
+      {
+          "type": "header",
+          "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_top",
+          "default": 36
+      },
+      {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_bottom",
+          "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "look",
+        "name": "t:sections.shop_the_look.blocks.name",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "t:sections.shop_the_look.blocks.settings.product.label"
+          },
+          {
+            "type": "header",
+            "content": "t:sections.shop_the_look.blocks.settings.header.content"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "t:sections.shop_the_look.blocks.settings.image.label"
+          },
+          {
+            "type": "range",
+            "id": "product_horizontal_position",
+            "label": "t:sections.shop_the_look.blocks.settings.product_horizontal_position.label",
+            "min": 10,
+            "max": 80,
+            "step": 1,
+            "unit": "%",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "product_vertical_position",
+            "label": "t:sections.shop_the_look.blocks.settings.product_vertical_position.label",
+            "min": 10,
+            "max": 80,
+            "step": 1,
+            "unit": "%",
+            "default": 50
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "t:sections.shop_the_look.presets.name",
+        "blocks": [
+          {
+            "type": "look",
+            "settings": {
+                "product_horizontal_position": 10,
+                "product_vertical_position": 10
+            }
+          },
+          {
+            "type": "look",
+            "settings": {
+                "product_horizontal_position": 50,
+                "product_vertical_position": 50
+            }
+          },
+          {
+            "type": "look",
+            "settings": {
+                "product_horizontal_position": 80,
+                "product_vertical_position": 80
+            }
+          }
+        ]
+      }
+    ]
+}
+{% endschema %}
