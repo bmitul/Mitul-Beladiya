@@ -71,6 +71,9 @@ if (!customElements.get('quick-add-modal')) {
         const productModal = productElement.querySelector('product-modal');
         if (productModal) productModal.remove();
 
+        const productQuantity = productElement.querySelector('.product-form__quantity');
+        if (productQuantity) productQuantity.remove();
+
         const modalDialog = productElement.querySelectorAll('modal-dialog');
         if (modalDialog) modalDialog.forEach((modal) => modal.remove());
       }
@@ -99,23 +102,69 @@ if (!customElements.get('quick-add-modal')) {
       }
 
       updateImageSizes(productElement) {
-        const product = productElement.querySelector('.product');
-        const desktopColumns = product?.classList.contains('product--columns');
-        if (!desktopColumns) return;
+          const product = productElement.querySelector('.product');
+          const desktopColumns = product?.classList.contains('product--columns');
+          
+          const gridItem = document.createElement('div');
+          gridItem.className = 'grid_item';
+      
+          const productvender = productElement.querySelector('.product__text.inline-richtext.caption-with-letter-spacing');
+          const productTitle = productElement.querySelector('.product__title');
+          const productPrice = productElement.querySelector('.price');
+          const productTax = productElement.querySelector('.product__tax');
+          const productDescription = productElement.querySelector('.product__description');
 
-        const mediaImages = product.querySelectorAll('.product__media img');
-        if (!mediaImages.length) return;
+           if (productvender) {
+              gridItem.innerHTML += productvender.outerHTML;
+              productvender.remove();
+          }
+          
+          if (productTitle) {
+              gridItem.innerHTML += productTitle.outerHTML;
+              productTitle.remove();
+          }
+          
+          if (productPrice) {
+              gridItem.innerHTML += productPrice.outerHTML;
+              productPrice.remove();
+          }
+          
+          if (productTax) {
+              gridItem.innerHTML += productTax.outerHTML;
+              productTax.remove();
+          }
+        
+          if (productDescription) {
+              gridItem.innerHTML += productDescription.outerHTML;
+              productDescription.remove();
+          }
+      
+        //   const mediaWrapper = productElement.querySelector('.product__media-wrapper');
+        //   mediaWrapper.insertAdjacentElement('afterend', gridItem);
 
-        let mediaImageSizes =
-          '(min-width: 1000px) 715px, (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)';
-
-        if (product.classList.contains('product--medium')) {
-          mediaImageSizes = mediaImageSizes.replace('715px', '605px');
-        } else if (product.classList.contains('product--small')) {
-          mediaImageSizes = mediaImageSizes.replace('715px', '495px');
+        // const productElement = document.querySelector('.your-product-selector'); // Adjust as necessary
+        const mediaWrapper = productElement.querySelector('.product__media-wrapper');
+    
+        if (mediaWrapper) {
+            mediaWrapper.insertAdjacentElement('afterend', gridItem);
         }
-
-        mediaImages.forEach((img) => img.setAttribute('sizes', mediaImageSizes));
+      
+          if (!desktopColumns) return;
+      
+          const mediaImages = product.querySelectorAll('.product__media img');
+          if (!mediaImages.length) return;
+      
+          let mediaImageSizes =
+            '(min-width: 1000px) 715px, (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)';
+      
+          if (product.classList.contains('product--medium')) {
+            mediaImageSizes = mediaImageSizes.replace('715px', '605px');
+          } else if (product.classList.contains('product--small')) {
+            mediaImageSizes = mediaImageSizes.replace('715px', '495px');
+          }
+      
+          // Update sizes attribute for all media images
+          mediaImages.forEach((img) => img.setAttribute('sizes', mediaImageSizes));
       }
     }
   );

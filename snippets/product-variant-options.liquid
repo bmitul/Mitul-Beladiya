@@ -58,25 +58,7 @@
     </span>
   {%- endcapture -%}
 
-  {%- if picker_type == 'swatch' -%}
-    {%- capture help_text -%}
-      <span class="visually-hidden">{{ value | escape }}</span>
-      {{ label_unavailable }}
-    {%- endcapture -%}
-    {%
-      render 'swatch-input',
-      id: input_id,
-      name: input_name,
-      value: value | escape,
-      swatch: value.swatch,
-      product_form_id: product_form_id,
-      checked: value.selected,
-      visually_disabled: option_disabled,
-      shape: block.settings.swatch_shape,
-      help_text: help_text,
-      additional_props: input_dataset
-    %}
-  {%- elsif picker_type == 'button' -%}
+  {%- if option.name == 'Color' or option.name contains 'color' -%}
     <input
       type="radio"
       id="{{ input_id }}"
@@ -92,10 +74,11 @@
       {{ input_dataset }}
     >
     <label for="{{ input_id }}">
+      <span style="background: {{ value | escape }};"></span>
       {{ value -}}
       {{ label_unavailable }}
     </label>
-  {%- elsif picker_type == 'dropdown' or picker_type == 'swatch_dropdown' -%}
+  {%- else -%}
     <option
       id="{{ input_id }}"
       value="{{ value | escape }}"

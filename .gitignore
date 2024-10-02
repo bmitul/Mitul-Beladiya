@@ -1,0 +1,10 @@
+/.vscode
+*.yml
+*.ymal
+config.yml
+/.ymal
+/.yml
+/.zips
+/config.yml
+templates/index.json
+/templates/index.json
